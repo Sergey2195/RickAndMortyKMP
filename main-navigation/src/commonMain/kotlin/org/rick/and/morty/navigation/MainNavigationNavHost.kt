@@ -11,7 +11,7 @@ import org.rick.and.morty.navigation.episodes.EpisodesDestination
 import org.rick.and.morty.navigation.locations.LocationsDestination
 
 @Composable
-fun MainNavigation() {
+fun MainNavigationNavHost() {
     val navController: NavHostController = rememberNavController()
     NavHost(
         navController = navController,
