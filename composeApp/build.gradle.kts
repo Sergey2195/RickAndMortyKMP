@@ -36,6 +36,7 @@ kotlin {
             implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
+            implementation(projects.design)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
@@ -52,6 +53,8 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.lifecycle.viewmodel)
             implementation(libs.navigation.compose)
+
+            implementation(projects.features.characters)
         }
     }
 }

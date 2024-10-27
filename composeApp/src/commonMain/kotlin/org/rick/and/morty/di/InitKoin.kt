@@ -7,8 +7,8 @@ fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
         modules(
-            //TODO
-            sharedExample
+            navigatorModule,
+            charactersModule
         )
     }
 }

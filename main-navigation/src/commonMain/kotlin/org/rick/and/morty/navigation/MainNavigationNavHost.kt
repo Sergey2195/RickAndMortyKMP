@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import org.koin.compose.viewmodel.koinViewModel
 import org.rick.and.morty.characters.CharactersScreen
 import org.rick.and.morty.episodes.EpisodesScreen
 import org.rick.and.morty.locations.LocationsScreen
@@ -13,14 +13,15 @@ import org.rick.and.morty.navigation.episodes.EpisodesDestination
 import org.rick.and.morty.navigation.locations.LocationsDestination
 
 @Composable
-fun MainNavigationNavHost() {
-    val navController: NavHostController = rememberNavController()
+fun MainNavigationNavHost(
+    navController: NavHostController
+) {
     NavHost(
         navController = navController,
-        startDestination = CharactersDestination.route
+        startDestination = CharactersDestination.route,
     ) {
         composable(CharactersDestination.route) {
-            CharactersScreen()
+            CharactersScreen(koinViewModel())
         }
 
         composable(EpisodesDestination.route) {

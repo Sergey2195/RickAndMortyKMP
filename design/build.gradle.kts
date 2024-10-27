@@ -43,20 +43,12 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(projects.features.characters)
-            implementation(projects.features.episodes)
-            implementation(projects.features.locations)
-
-            api(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(libs.lifecycle.viewmodel)
         }
     }
 }
 
 android {
-    namespace = "org.rick.and.morty.main.navigation"
+    namespace = "design"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
@@ -81,4 +73,3 @@ android {
 dependencies {
     debugImplementation(compose.uiTooling)
 }
-
