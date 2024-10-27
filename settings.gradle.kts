@@ -30,3 +30,6 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 include(":main-navigation")
+include(":features:characters")
+include(":features:episodes")
+include(":features:locations")

@@ -1,11 +1,13 @@
 package org.rick.and.morty.navigation
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import org.rick.and.morty.characters.CharactersScreen
+import org.rick.and.morty.episodes.EpisodesScreen
+import org.rick.and.morty.locations.LocationsScreen
 import org.rick.and.morty.navigation.characters.CharactersDestination
 import org.rick.and.morty.navigation.episodes.EpisodesDestination
 import org.rick.and.morty.navigation.locations.LocationsDestination
@@ -18,15 +20,15 @@ fun MainNavigationNavHost() {
         startDestination = CharactersDestination.route
     ) {
         composable(CharactersDestination.route) {
-            Text(CharactersDestination.route)
+            CharactersScreen()
         }
 
         composable(EpisodesDestination.route) {
-            Text(EpisodesDestination.route)
+            EpisodesScreen()
         }
 
         composable(LocationsDestination.route) {
-            Text(LocationsDestination.route)
+            LocationsScreen()
         }
     }
 }

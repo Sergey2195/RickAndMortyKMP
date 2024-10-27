@@ -1,14 +1,17 @@
 package org.rick.and.morty
 
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.KoinContext
 import org.rick.and.morty.navigation.MainNavigationNavHost
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-        MainNavigationNavHost()
+        KoinContext {
+            MainNavigationNavHost()
+        }
     }
 }
