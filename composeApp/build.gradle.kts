@@ -55,6 +55,8 @@ kotlin {
             implementation(libs.navigation.compose)
 
             implementation(projects.features.characters)
+            implementation(projects.features.episodes)
+            implementation(projects.features.locations)
         }
     }
 }

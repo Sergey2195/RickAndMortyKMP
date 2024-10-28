@@ -1,18 +1,34 @@
 package org.rick.and.morty.episodes
 
+import Design
+import MainBottomNavigation
+import Tabs
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun EpisodesScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+fun EpisodesScreen(episodesViewModel: EpisodesViewModel) {
+    Scaffold(
+        bottomBar = {
+            MainBottomNavigation(
+                selectedTab = Tabs.EPISODES,
+                onClickIndex = episodesViewModel::onClickBottomNavigation
+            )
+        }
     ) {
-        Text("Episodes Screen")
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Design.Colors.backgroundPrimary)
+                .statusBarsPadding()
+        ) {
+            Text("EpisodesScreen", color = Design.Colors.textPrimary)
+        }
     }
 }

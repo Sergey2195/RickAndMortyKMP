@@ -7,7 +7,9 @@ fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
         modules(
-            charactersModule
+            charactersModule,
+            episodesModule,
+            locationsModule
         )
     }
 }

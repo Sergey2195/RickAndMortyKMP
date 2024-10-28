@@ -34,6 +34,8 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
+            implementation(projects.design)
+            implementation(projects.bottomNavigation)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)

@@ -25,11 +25,11 @@ fun MainNavigationNavHost(
         }
 
         composable(EpisodesDestination.route) {
-            EpisodesScreen()
+            EpisodesScreen(koinViewModel())
         }
 
         composable(LocationsDestination.route) {
-            LocationsScreen()
+            LocationsScreen(koinViewModel())
         }
     }
 }
