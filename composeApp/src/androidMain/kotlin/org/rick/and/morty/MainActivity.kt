@@ -10,11 +10,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
-import org.koin.android.ext.android.inject
 import org.rick.and.morty.navigation.Navigator
 
 class MainActivity : ComponentActivity() {
-    private val navigator by inject<Navigator>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +21,8 @@ class MainActivity : ComponentActivity() {
             enableEdgeToEdge(statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT))
             WindowCompat.getInsetsController((LocalView.current.context as Activity).window, LocalView.current).isAppearanceLightStatusBars = false
             val navHostController = rememberNavController()
-            navigator.setNavigator(navHostController)
-            App(navigator.getNavigator())
+            Navigator.setNavigator(navHostController)
+            App(Navigator.getNavigator())
         }
     }
 }

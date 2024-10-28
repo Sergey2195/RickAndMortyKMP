@@ -5,17 +5,15 @@ import org.rick.and.morty.navigation.Navigator
 import org.rick.and.morty.navigation.episodes.EpisodesDestination
 import org.rick.and.morty.navigation.locations.LocationsDestination
 
-class CharactersNavigatorImpl(
-    private val navigator: Navigator
-): CharactersNavigator {
+class CharactersNavigatorImpl: CharactersNavigator {
     override fun navigateToEpisodes() {
-        navigator
+        Navigator
             .getNavigator()
             .navigate(EpisodesDestination.route)
     }
 
     override fun navigateToLocations() {
-        navigator
+        Navigator
             .getNavigator()
             .navigate(LocationsDestination.route)
     }

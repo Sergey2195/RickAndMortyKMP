@@ -2,7 +2,7 @@ package org.rick.and.morty.navigation
 
 import androidx.navigation.NavHostController
 
-class Navigator {
+object Navigator {
     private lateinit var navHostController: NavHostController
 
     fun setNavigator(controller: NavHostController) {
