@@ -40,6 +40,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(projects.design)
             implementation(projects.bottomNavigation)
+            implementation (libs.paging.compose.common)
         }
     }
 }
