@@ -9,11 +9,11 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun MainBottomNavigation(
-    selectedTab: Tabs,
-    onClickIndex: (Tabs) -> Unit
+    selectedTab: Tab,
+    onClickIndex: (Tab) -> Unit
 ) {
     BottomNavigation {
-        Tabs.entries.forEach { tab ->
+        Tab.entries.forEach { tab ->
             BottomNavigationItem(
                 selected = selectedTab == tab,
                 onClick = { onClickIndex(tab) },

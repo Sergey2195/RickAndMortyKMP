@@ -4,7 +4,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.SmartDisplay
 import androidx.compose.ui.graphics.vector.ImageVector
 
-enum class Tabs(
+enum class Tab(
     val title: String,
     val icon: ImageVector
 ) {

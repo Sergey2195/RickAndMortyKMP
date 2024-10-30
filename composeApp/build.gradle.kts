@@ -34,6 +34,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(projects.design)
@@ -57,6 +58,16 @@ kotlin {
             implementation(projects.features.characters)
             implementation(projects.features.episodes)
             implementation(projects.features.locations)
+
+            implementation(libs.ktor.core)
+            implementation(libs.coil.compose.core)
+            implementation(libs.coil.mp)
+            implementation(libs.coil.network.ktor)
+            implementation(libs.coil.compose)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }

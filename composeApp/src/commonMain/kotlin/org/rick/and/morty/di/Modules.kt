@@ -4,8 +4,8 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import org.rick.and.morty.characters.CharactersNavigator
-import org.rick.and.morty.characters.CharactersViewModel
+import org.rick.and.morty.characters.api.CharactersNavigator
+import org.rick.and.morty.characters.api.CharactersViewModel
 import org.rick.and.morty.episodes.EpisodesNavigator
 import org.rick.and.morty.episodes.EpisodesViewModel
 import org.rick.and.morty.locations.LocationsNavigator

@@ -2,7 +2,7 @@ package org.rick.and.morty.locations
 
 import Design
 import MainBottomNavigation
-import Tabs
+import Tab
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +17,7 @@ fun LocationsScreen(locationsViewModel: LocationsViewModel) {
     Scaffold(
         bottomBar = {
             MainBottomNavigation(
-                selectedTab = Tabs.LOCATIONS,
+                selectedTab = Tab.LOCATIONS,
                 onClickIndex = locationsViewModel::onClickBottomNavigation
             )
         }

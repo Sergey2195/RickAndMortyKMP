@@ -1,7 +1,6 @@
 package org.rick.and.morty.navigation.characters
 
-import androidx.navigation.NavOptions
-import org.rick.and.morty.characters.CharactersNavigator
+import org.rick.and.morty.characters.api.CharactersNavigator
 import org.rick.and.morty.navigation.Navigator
 import org.rick.and.morty.navigation.episodes.EpisodesDestination
 import org.rick.and.morty.navigation.locations.LocationsDestination

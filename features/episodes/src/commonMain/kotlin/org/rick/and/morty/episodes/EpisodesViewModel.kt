@@ -1,15 +1,15 @@
 package org.rick.and.morty.episodes
 
-import Tabs
+import Tab
 import androidx.lifecycle.ViewModel
 
 class EpisodesViewModel(
     private val navigator: EpisodesNavigator
 ): ViewModel() {
-    fun onClickBottomNavigation(clicked: Tabs) {
+    fun onClickBottomNavigation(clicked: Tab) {
         when (clicked) {
-            Tabs.CHARACTERS -> navigateToCharacters()
-            Tabs.LOCATIONS -> navigateToLocations()
+            Tab.CHARACTERS -> navigateToCharacters()
+            Tab.LOCATIONS -> navigateToLocations()
             else -> {}
         }
     }

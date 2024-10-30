@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.koin.compose.viewmodel.koinViewModel
-import org.rick.and.morty.characters.CharactersScreen
+import org.rick.and.morty.characters.api.CharactersScreen
 import org.rick.and.morty.episodes.EpisodesScreen
 import org.rick.and.morty.locations.LocationsScreen
 import org.rick.and.morty.navigation.characters.CharactersDestination
