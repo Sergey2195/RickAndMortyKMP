@@ -2,16 +2,28 @@ package org.rick.and.morty.characters.internal.presentation
 
 import Design
 import MainBottomNavigation
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -22,6 +34,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -40,25 +54,25 @@ internal fun CharactersView(
             )
         }
     ) {
-        Column {
-            CharactersItemView(
-                modifier = Modifier.weight(1f),
-                characters = state.characters,
-                onUiState = onUiState
-            )
-        }
+        CharactersItemView(
+            paddingValues = it,
+            characters = state.characters,
+            onUiState = onUiState
+        )
     }
 }
 
 @Composable
 private fun CharactersItemView(
-    modifier: Modifier,
+    paddingValues: PaddingValues,
     characters: List<CharacterItem>,
     onUiState: (UiEvent) -> Unit
 ) {
     LazyColumn(
-        modifier = modifier
+        contentPadding = paddingValues,
     ) {
+        item { Spacer(Modifier.statusBarsPadding().heightIn(1.dp)) }
+
         items(
             items = characters,
             key = { it.id }
