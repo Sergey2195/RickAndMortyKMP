@@ -2,10 +2,12 @@ package org.rick.and.morty.characters.api
 
 import Tab
 import androidx.lifecycle.ViewModel
+import org.rick.and.morty.characters.internal.domain.CharactersRepository
 import org.rick.and.morty.characters.internal.presentation.UiEvent
 
-class CharactersViewModel(
-    private val navigator: CharactersNavigator
+class CharactersViewModel internal constructor(
+    private val navigator: CharactersNavigator,
+    private val repository: CharactersRepository,
 ) : ViewModel() {
 
     internal fun onUiEvent(uiEvent: UiEvent) {
