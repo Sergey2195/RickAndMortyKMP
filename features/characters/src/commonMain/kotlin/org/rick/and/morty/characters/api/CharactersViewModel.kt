@@ -2,9 +2,11 @@ package org.rick.and.morty.characters.api
 
 import Tab
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import org.rick.and.morty.characters.internal.domain.CharactersRepository
 import org.rick.and.morty.characters.internal.presentation.CharacterItem
 import org.rick.and.morty.characters.internal.presentation.CharactersState
@@ -15,21 +17,23 @@ public class CharactersViewModel internal constructor(
     private val repository: CharactersRepository,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<CharactersState>(CharactersState(emptyList()))
+    private val _state = MutableStateFlow(CharactersState(emptyList()))
     internal val state: StateFlow<CharactersState>
         get() = _state.asStateFlow()
 
     init {
-        _state.value = CharactersState(repository
-            .getCharactersWithPage(0)
-            .map {
-                CharacterItem(
-                    id = it.id,
-                    name = it.name,
-                    description = "${it.status} ${it.gender} ${it.species}",
-                    urlImage = it.urlImage
-                )
-            })
+        viewModelScope.launch {
+            _state.value = CharactersState(repository
+                .getCharactersWithPage(0)
+                .map {
+                    CharacterItem(
+                        id = it.id,
+                        name = it.name,
+                        description = "${it.status} ${it.gender} ${it.species}",
+                        urlImage = it.urlImage
+                    )
+                })
+        }
     }
 
     internal fun onUiEvent(uiEvent: UiEvent) {

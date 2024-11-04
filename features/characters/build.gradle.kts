@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 kotlin {
@@ -52,7 +53,13 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.ktor.negotiation)
+            implementation(libs.ktor.json)
         }
+        androidMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
+        }
+
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }

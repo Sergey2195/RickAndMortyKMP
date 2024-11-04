@@ -1,94 +1,41 @@
 package org.rick.and.morty.characters.internal.data
 
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.get
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import org.rick.and.morty.characters.internal.data.entity.CharactersResponse
 import org.rick.and.morty.characters.internal.domain.CharacterModel
 import org.rick.and.morty.characters.internal.domain.CharactersRepository
 import kotlin.random.Random
 
-internal class CharactersRepositoryImpl: CharactersRepository {
-    override fun getCharactersWithPage(page: Int): List<CharacterModel> {
-        val hardcodedList = listOf(
-            CharacterModel(
-                id = "1",
-                name = "Rick Sanchez",
-                status = "Alive",
-                gender = "Male",
-                species = "Human",
-                urlImage = "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-            ),
-            CharacterModel(
-                id = "2",
-                name = "Morty Smith",
-                status = "Alive",
-                gender = "Male",
-                species = "Human",
-                urlImage = "https://rickandmortyapi.com/api/character/avatar/2.jpeg"
-            ),
-            CharacterModel(
-                id = "3",
-                name = "Summer Smith",
-                status = "Alive",
-                gender = "Female",
-                species = "Human",
-                urlImage = "https://rickandmortyapi.com/api/character/avatar/3.jpeg"
-            ),
-            CharacterModel(
-                id = "4",
-                name = "Beth Smith",
-                status = "Alive",
-                gender = "Female",
-                species = "Human",
-                urlImage = "https://rickandmortyapi.com/api/character/avatar/4.jpeg"
-            ),
-            CharacterModel(
-                id = "5",
-                name = "Jerry Smith",
-                status = "Alive",
-                gender = "Male",
-                species = "Human",
-                urlImage = "https://rickandmortyapi.com/api/character/avatar/5.jpeg"
-            ),
-            CharacterModel(
-                id = "6",
-                name = "Abadango Cluster Princess",
-                status = "Alive",
-                gender = "Female",
-                species = "Alien",
-                urlImage = "https://rickandmortyapi.com/api/character/avatar/6.jpeg"
-            ),
-            CharacterModel(
-                id = "7",
-                name = "Abradolf Lincler",
-                status = "unknown",
-                gender = "Male",
-                species = "Human",
-                urlImage = "https://rickandmortyapi.com/api/character/avatar/7.jpeg"
-            ),
-            CharacterModel(
-                id = "8",
-                name = "Adjudicator Rick",
-                status = "Dead",
-                gender = "Male",
-                species = "Human",
-                urlImage = "https://rickandmortyapi.com/api/character/avatar/8.jpeg"
-            ),
-            CharacterModel(
-                id = "9",
-                name = "Agency Director",
-                status = "Dead",
-                gender = "Male",
-                species = "Human",
-                urlImage = "https://rickandmortyapi.com/api/character/avatar/9.jpeg"
-            ),
-            CharacterModel(
-                id = "10",
-                name = "Alan Rails",
-                status = "Dead",
-                gender = "Male",
-                species = "Human",
-                urlImage = "https://rickandmortyapi.com/api/character/avatar/10.jpeg"
-            )
-        )
+internal class CharactersRepositoryImpl : CharactersRepository {
+    private val httpClient = HttpClient {
+        install(ContentNegotiation) {
+            json(Json {
+                prettyPrint = true
+                isLenient = true
+                ignoreUnknownKeys = true
+            })
+        }
+    }
 
-        return hardcodedList + hardcodedList.map { it.copy(id = Random.nextInt().toString()) }
+    override suspend fun getCharactersWithPage(page: Int): List<CharacterModel> {
+        return httpClient
+            .get("https://rickandmortyapi.com/api/character")
+            .body<CharactersResponse>()
+            .results
+            .map {
+                CharacterModel(
+                    id = it.id,
+                    name = it.name,
+                    status = it.status,
+                    gender = it.gender,
+                    species = it.species,
+                    urlImage = it.image
+                )
+            }
     }
 }
