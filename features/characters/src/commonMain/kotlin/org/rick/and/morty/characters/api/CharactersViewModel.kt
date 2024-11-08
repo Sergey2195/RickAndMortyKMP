@@ -3,37 +3,41 @@ package org.rick.and.morty.characters.api
 import Tab
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.map
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.rick.and.morty.characters.internal.domain.CharactersRepository
 import org.rick.and.morty.characters.internal.presentation.CharacterItem
 import org.rick.and.morty.characters.internal.presentation.CharactersState
 import org.rick.and.morty.characters.internal.presentation.UiEvent
+import org.rick.and.morty.characters.internal.presentation.toCharacterItem
 
 public class CharactersViewModel internal constructor(
     private val navigator: CharactersNavigator,
     private val repository: CharactersRepository,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CharactersState(emptyList()))
+    private val _state = MutableStateFlow(CharactersState(PagingData.empty()))
     internal val state: StateFlow<CharactersState>
         get() = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            _state.value = CharactersState(repository
-                .getCharactersWithPage(0)
-                .map {
-                    CharacterItem(
-                        id = it.id,
-                        name = it.name,
-                        description = "${it.status} ${it.gender} ${it.species}",
-                        urlImage = it.urlImage
-                    )
-                })
-        }
+        repository
+            .getCharactersFlow()
+            .distinctUntilChanged()
+            .cachedIn(viewModelScope)
+            .onEach { pagingData ->
+                _state.value = CharactersState(pagingData.map { it.toCharacterItem() })
+            }
+            .launchIn(viewModelScope)
     }
 
     internal fun onUiEvent(uiEvent: UiEvent) {

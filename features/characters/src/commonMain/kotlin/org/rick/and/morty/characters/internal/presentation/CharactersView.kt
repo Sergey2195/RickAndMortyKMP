@@ -2,30 +2,19 @@ package org.rick.and.morty.characters.internal.presentation
 
 import Design
 import MainBottomNavigation
-import androidx.compose.foundation.background
+import Tab
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -34,10 +23,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
+import app.cash.paging.compose.LazyPagingItems
 import coil3.compose.AsyncImage
 
 @Composable
@@ -45,6 +34,8 @@ internal fun CharactersView(
     state: CharactersState,
     onUiState: (UiEvent) -> Unit
 ) {
+    val items = state.characters.collectAsLazyPagingItems()
+
     Scaffold(
         modifier = Modifier,
         bottomBar = {
@@ -53,10 +44,10 @@ internal fun CharactersView(
                 onClickIndex = { onUiState.invoke(UiEvent.TabClick(it)) }
             )
         }
-    ) {
+    ) { paddingValues ->
         CharactersItemView(
-            paddingValues = it,
-            characters = state.characters,
+            paddingValues = paddingValues,
+            characters = items,
             onUiState = onUiState
         )
     }
@@ -65,7 +56,7 @@ internal fun CharactersView(
 @Composable
 private fun CharactersItemView(
     paddingValues: PaddingValues,
-    characters: List<CharacterItem>,
+    characters: LazyPagingItems<CharacterItem>,
     onUiState: (UiEvent) -> Unit
 ) {
     LazyColumn(
@@ -74,13 +65,43 @@ private fun CharactersItemView(
         item { Spacer(Modifier.statusBarsPadding().heightIn(1.dp)) }
 
         items(
-            items = characters,
-            key = { it.id }
-        ) {
-            CharacterCell(
-                character = it,
-                onUiState = onUiState
-            )
+            count = characters.itemCount,
+            key = { index -> characters[index]?.id ?: "" }
+        ) { index ->
+            characters[index]?.let {
+                CharacterCell(
+                    character = it,
+                    onUiState = onUiState
+                )
+            }
+        }
+
+        characters.apply {
+            when {
+                loadState.refresh is LoadState.Loading -> {
+                    item {
+                        Text("refresh LoadState.Loading")
+                    }
+                }
+
+                loadState.refresh is LoadState.Error -> {
+                    item {
+                        Text("LoadState.Error")
+                    }
+                }
+
+                loadState.append is LoadState.Loading -> {
+                    item {
+                        Text("append LoadState.Loading")
+                    }
+                }
+
+                loadState.append is LoadState.Error -> {
+                    item {
+                        Text("append LoadState.Error")
+                    }
+                }
+            }
         }
     }
 }
