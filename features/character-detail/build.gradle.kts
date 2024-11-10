@@ -52,6 +52,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.ktor.negotiation)
             implementation(libs.ktor.json)
+            implementation(compose.materialIconsExtended)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)

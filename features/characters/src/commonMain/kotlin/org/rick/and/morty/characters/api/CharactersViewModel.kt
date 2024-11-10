@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 import org.rick.and.morty.characters.internal.domain.CharactersRepository
 import org.rick.and.morty.characters.internal.presentation.CharactersState
 import org.rick.and.morty.characters.internal.presentation.UiEvent
-import org.rick.and.morty.characters.internal.presentation.toCharacterItem
 
 public class CharactersViewModel internal constructor(
     private val navigator: CharactersNavigator,
@@ -28,7 +27,6 @@ public class CharactersViewModel internal constructor(
             _state.value = CharactersState(
                 repository
                     .getFirstPage()
-                    .map { it.toCharacterItem() }
             )
         }
     }
@@ -63,7 +61,7 @@ public class CharactersViewModel internal constructor(
     }
 
     private suspend fun loadNewPage() {
-        val newCharacters = repository.getNewPage().map { it.toCharacterItem() }
+        val newCharacters = repository.getNewPage()
         isRequestSent = false
 
         _state.update {

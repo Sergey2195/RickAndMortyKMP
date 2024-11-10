@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import org.rick.and.morty.characters.internal.domain.CharacterItem
 
 @Composable
 internal fun CharactersView(

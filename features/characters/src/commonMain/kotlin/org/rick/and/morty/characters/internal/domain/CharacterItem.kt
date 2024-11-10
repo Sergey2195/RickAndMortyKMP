@@ -1,10 +1,11 @@
 package org.rick.and.morty.characters.internal.domain
 
-internal data class CharacterModel(
+import androidx.compose.runtime.Immutable
+
+@Immutable
+internal data class CharacterItem(
     val id: String,
     val name: String,
-    val status: String,
-    val gender: String,
-    val species: String,
+    val description: String,
     val urlImage: String
 )

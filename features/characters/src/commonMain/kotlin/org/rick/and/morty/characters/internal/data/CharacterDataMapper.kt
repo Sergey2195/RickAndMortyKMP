@@ -1,15 +1,13 @@
 package org.rick.and.morty.characters.internal.data
 
 import org.rick.and.morty.characters.internal.data.entity.CharacterData
-import org.rick.and.morty.characters.internal.domain.CharacterModel
+import org.rick.and.morty.characters.internal.domain.CharacterItem
 
-internal fun CharacterData.toDomainModel(): CharacterModel {
-    return CharacterModel(
+internal fun CharacterData.toDomainModel(): CharacterItem {
+    return CharacterItem(
         id = this.id,
         name = this.name,
-        status = this.status,
-        gender = this.gender,
-        species = this.species,
-        urlImage = this.image
+        urlImage = this.image,
+        description = "${this.status} ${this.species} ${this.gender}"
     )
 }

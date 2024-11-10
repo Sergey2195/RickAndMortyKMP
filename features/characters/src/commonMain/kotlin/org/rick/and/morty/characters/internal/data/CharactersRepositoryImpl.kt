@@ -7,7 +7,7 @@ import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.rick.and.morty.characters.internal.data.entity.CharactersResponse
-import org.rick.and.morty.characters.internal.domain.CharacterModel
+import org.rick.and.morty.characters.internal.domain.CharacterItem
 import org.rick.and.morty.characters.internal.domain.CharactersRepository
 
 internal class CharactersRepositoryImpl : CharactersRepository {
@@ -23,7 +23,7 @@ internal class CharactersRepositoryImpl : CharactersRepository {
         }
     }
 
-    override suspend fun getFirstPage(): List<CharacterModel> {
+    override suspend fun getFirstPage(): List<CharacterItem> {
         val characterResponse = getCharactersWithPage(1)
 
         totalPages = characterResponse?.info?.pages ?: Int.MAX_VALUE
@@ -34,7 +34,7 @@ internal class CharactersRepositoryImpl : CharactersRepository {
             ?: emptyList()
     }
 
-    override suspend fun getNewPage(): List<CharacterModel> {
+    override suspend fun getNewPage(): List<CharacterItem> {
         currentPage++
 
         return if (totalPages >= currentPage) {
