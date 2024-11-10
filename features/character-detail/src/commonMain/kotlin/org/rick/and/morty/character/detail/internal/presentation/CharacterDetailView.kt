@@ -30,14 +30,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import org.rick.and.morty.character.detail.internal.domain.CharacterDetailState
+import org.rick.and.morty.character.detail.internal.domain.CharacterDetailModel
 
 @Composable
 internal fun CharacterDetailView(
-    state: CharacterDetailState
+    state: CharacterDetailModel,
+    onUiEvent: (UiEvent) -> Unit
 ) {
     Scaffold(
-        topBar = { TopBar(state.name) }
+        topBar = { TopBar(name = state.name, onUiEvent = onUiEvent) }
     ) {
         Column(
             modifier = Modifier
@@ -83,6 +84,18 @@ internal fun CharacterDetailView(
             }
 
             Text(
+                text = "Origin",
+                fontSize = 24.sp,
+                modifier = Modifier
+                    .padding(start = 16.dp, top = 8.dp)
+            )
+
+            Text(
+                text = state.origin.locationName,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+
+            Text(
                 text = "Location",
                 fontSize = 24.sp,
                 modifier = Modifier
@@ -114,7 +127,10 @@ internal fun CharacterDetailView(
 }
 
 @Composable
-private fun TopBar(name: String) {
+private fun TopBar(
+    name: String,
+    onUiEvent: (UiEvent) -> Unit
+) {
     Box(
         modifier = Modifier.fillMaxWidth()
             .padding(horizontal = 16.dp)
@@ -135,7 +151,9 @@ private fun TopBar(name: String) {
             modifier = Modifier
                 .clickable(
                     indication = null,
-                    interactionSource = remember { MutableInteractionSource() }) { /*TODO*/ }
+                    interactionSource = remember { MutableInteractionSource() }) {
+                    onUiEvent(UiEvent.OnPopBack)
+                }
         )
     }
 }

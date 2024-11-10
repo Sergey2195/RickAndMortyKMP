@@ -1,21 +1,34 @@
 package org.rick.and.morty.character.detail.api
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.rick.and.morty.character.detail.internal.domain.CharacterDetailState
-import org.rick.and.morty.character.detail.internal.domain.Episode
-import org.rick.and.morty.character.detail.internal.domain.Location
+import kotlinx.coroutines.launch
+import org.rick.and.morty.character.detail.internal.domain.CharacterDetailModel
+import org.rick.and.morty.character.detail.internal.domain.CharacterDetailRepository
+import org.rick.and.morty.character.detail.internal.presentation.UiEvent
 
 public class CharacterDetailViewModel internal constructor(
-
+    private val navigator: CharacterDetailNavigator,
+    private val repository: CharacterDetailRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<CharacterDetailState?>(null)
+    private val _state = MutableStateFlow<CharacterDetailModel?>(null)
     internal val state = _state.asStateFlow()
 
+    internal fun onUiEvent(uiEvent: UiEvent) {
+        when (uiEvent) {
+            UiEvent.OnPopBack -> navigator.popBack()
+        }
+    }
+
     internal fun onNewArgs(id: String) {
-        _state.value = CharacterDetailState(
+        viewModelScope.launch {
+            _state.value = repository.loadCharacterDetails(id)
+        }
+    }
+        /*_state.value = CharacterDetailModel(
             image = "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
             name = "Morty Smith",
             species = "Human",
@@ -25,6 +38,7 @@ public class CharacterDetailViewModel internal constructor(
                 locationName = "Earth",
                 locationId = "20"
             ),
+            origin = Location("123", "ABC"),
             episodes = listOf(
                 Episode(
                     episodeId = "1",
@@ -49,5 +63,9 @@ public class CharacterDetailViewModel internal constructor(
             )
         )
     }
+         */
+}
 
+public interface CharacterDetailNavigator {
+    public fun popBack()
 }

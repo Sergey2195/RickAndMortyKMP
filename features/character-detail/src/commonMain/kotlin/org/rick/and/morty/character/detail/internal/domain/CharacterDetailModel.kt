@@ -3,12 +3,13 @@ package org.rick.and.morty.character.detail.internal.domain
 import androidx.compose.runtime.Immutable
 
 @Immutable
-internal data class CharacterDetailState(
+internal data class CharacterDetailModel(
     val image: String,
     val name: String,
     val species: String,
     val status: String,
     val gender: String,
+    val origin: Location,
     val location: Location,
     val episodes: List<Episode>
 )

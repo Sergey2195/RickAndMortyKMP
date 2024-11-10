@@ -13,7 +13,10 @@ public fun CharacterDetailScreen(
     val state = viewModel.state.collectAsState().value
 
     state?.let {
-        CharacterDetailView(it)
+        CharacterDetailView(
+            state = it,
+            onUiEvent = viewModel::onUiEvent
+        )
     }
 
     LaunchedEffect(Unit) {
