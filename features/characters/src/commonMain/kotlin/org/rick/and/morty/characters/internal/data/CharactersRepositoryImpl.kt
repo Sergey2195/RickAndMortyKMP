@@ -11,6 +11,8 @@ import org.rick.and.morty.characters.internal.domain.CharacterModel
 import org.rick.and.morty.characters.internal.domain.CharactersRepository
 
 internal class CharactersRepositoryImpl : CharactersRepository {
+    private var totalPages = Int.MAX_VALUE
+    private var currentPage = 1
     private val httpClient = HttpClient {
         install(ContentNegotiation) {
             json(Json {
@@ -21,20 +23,31 @@ internal class CharactersRepositoryImpl : CharactersRepository {
         }
     }
 
-    override suspend fun getCharactersWithPage(page: Int): List<CharacterModel> {
-        return httpClient
-            .get("https://rickandmortyapi.com/api/character")
-            .body<CharactersResponse>()
+    override suspend fun getFirstPage(): List<CharacterModel> {
+        val characterResponse =  getCharactersWithPage(1)
+
+        totalPages = characterResponse.info.pages
+
+        return characterResponse
             .results
-            .map {
-                CharacterModel(
-                    id = it.id,
-                    name = it.name,
-                    status = it.status,
-                    gender = it.gender,
-                    species = it.species,
-                    urlImage = it.image
-                )
-            }
+            .map { it.toDomainModel() }
+    }
+
+    override suspend fun getNewPage(): List<CharacterModel> {
+        currentPage++
+
+        return if (totalPages >= currentPage) {
+            getCharactersWithPage(currentPage)
+                .results
+                .map { it.toDomainModel() }
+        } else {
+            emptyList()
+        }
+    }
+
+    private suspend fun getCharactersWithPage(page: Int): CharactersResponse {
+        return httpClient
+            .get("https://rickandmortyapi.com/api/character/?page=$page")
+            .body<CharactersResponse>()
     }
 }

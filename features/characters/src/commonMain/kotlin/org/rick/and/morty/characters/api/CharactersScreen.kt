@@ -8,6 +8,6 @@ import org.rick.and.morty.characters.internal.presentation.CharactersView
 public fun CharactersScreen(charactersViewModel: CharactersViewModel) {
     CharactersView(
         state = charactersViewModel.state.collectAsState().value,
-        onUiState = charactersViewModel::onUiEvent
+        onUiEvent = charactersViewModel::onUiEvent
     )
 }

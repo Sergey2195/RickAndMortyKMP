@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class CharactersResponse(
+    @SerialName("info")
+    val info: PageInfo,
     @SerialName("results")
     val results: List<CharacterData>
 )
@@ -23,4 +25,10 @@ internal data class CharacterData(
     val species: String,
     @SerialName("image")
     val image: String
+)
+
+@Serializable
+internal data class PageInfo(
+    @SerialName("pages")
+    val pages: Int
 )

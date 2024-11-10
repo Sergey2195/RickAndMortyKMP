@@ -33,21 +33,21 @@ import coil3.compose.AsyncImage
 @Composable
 internal fun CharactersView(
     state: CharactersState,
-    onUiState: (UiEvent) -> Unit
+    onUiEvent: (UiEvent) -> Unit
 ) {
     Scaffold(
         modifier = Modifier,
         bottomBar = {
             MainBottomNavigation(
                 selectedTab = Tab.CHARACTERS,
-                onClickIndex = { onUiState.invoke(UiEvent.TabClick(it)) }
+                onClickIndex = { onUiEvent.invoke(UiEvent.TabClick(it)) }
             )
         }
     ) {
         CharactersItemView(
             paddingValues = it,
             characters = state.characters,
-            onUiState = onUiState
+            onUiEvent = onUiEvent
         )
     }
 }
@@ -56,7 +56,7 @@ internal fun CharactersView(
 private fun CharactersItemView(
     paddingValues: PaddingValues,
     characters: List<CharacterItem>,
-    onUiState: (UiEvent) -> Unit
+    onUiEvent: (UiEvent) -> Unit
 ) {
     val lazyListState = rememberLazyListState()
 
@@ -72,14 +72,17 @@ private fun CharactersItemView(
         ) {
             CharacterCell(
                 character = it,
-                onUiState = onUiState
+                onUiState = onUiEvent
             )
         }
     }
 
     LaunchedEffect(lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index) {
-        val diff = lazyListState.layoutInfo.totalItemsCount - (lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0)
-        println("diff $diff")
+        onUiEvent.invoke(
+            UiEvent.OnChangedLastVisibleItem(
+                index = lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+            )
+        )
     }
 }
 
