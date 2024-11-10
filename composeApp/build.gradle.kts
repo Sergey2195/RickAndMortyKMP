@@ -58,6 +58,7 @@ kotlin {
             implementation(projects.features.characters)
             implementation(projects.features.episodes)
             implementation(projects.features.locations)
+            implementation(projects.features.characterDetail)
 
             implementation(libs.ktor.core)
             implementation(libs.coil.compose.core)

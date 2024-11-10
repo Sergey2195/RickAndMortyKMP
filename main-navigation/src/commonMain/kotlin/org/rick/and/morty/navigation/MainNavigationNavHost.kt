@@ -14,9 +14,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.koin.compose.viewmodel.koinViewModel
+import org.rick.and.morty.character.detail.api.CharacterDetailScreen
 import org.rick.and.morty.characters.api.CharactersScreen
 import org.rick.and.morty.episodes.EpisodesScreen
 import org.rick.and.morty.locations.LocationsScreen
+import org.rick.and.morty.navigation.characterDetail.CharacterDetailDestination
 import org.rick.and.morty.navigation.characters.CharactersDestination
 import org.rick.and.morty.navigation.episodes.EpisodesDestination
 import org.rick.and.morty.navigation.locations.LocationsDestination
@@ -56,6 +58,13 @@ fun MainNavigationNavHost(
 
         screen(LocationsDestination.route) {
             LocationsScreen(koinViewModel())
+        }
+
+        screen(CharacterDetailDestination.route) {
+            CharacterDetailScreen(
+                id = CharacterDetailDestination.getIdWithArguments(it.arguments),
+                viewModel = koinViewModel()
+            )
         }
     }
 }

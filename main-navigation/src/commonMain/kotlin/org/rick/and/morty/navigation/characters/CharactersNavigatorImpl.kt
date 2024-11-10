@@ -2,6 +2,7 @@ package org.rick.and.morty.navigation.characters
 
 import org.rick.and.morty.characters.api.CharactersNavigator
 import org.rick.and.morty.navigation.Navigator
+import org.rick.and.morty.navigation.characterDetail.CharacterDetailDestination
 import org.rick.and.morty.navigation.episodes.EpisodesDestination
 import org.rick.and.morty.navigation.locations.LocationsDestination
 
@@ -14,5 +15,11 @@ class CharactersNavigatorImpl: CharactersNavigator {
     override fun navigateToLocations() {
         Navigator
             .navigateWithSingleInstance(LocationsDestination.route)
+    }
+
+    override fun navigateToCharacterDetail(id: String) {
+        Navigator
+            .getNavigator()
+            .navigate(CharacterDetailDestination.getConfigurationRoute(id))
     }
 }

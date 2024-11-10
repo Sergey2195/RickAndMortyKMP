@@ -37,7 +37,7 @@ public class CharactersViewModel internal constructor(
         when (uiEvent) {
             is UiEvent.TabClick -> onClickBottomNavigation(uiEvent.tab)
             is UiEvent.OnChangedLastVisibleItem -> onChangedLastVisibleItem(uiEvent.index)
-            is UiEvent.ItemClick -> {}
+            is UiEvent.ItemClick -> navigator.navigateToCharacterDetail(uiEvent.id)
         }
     }
 
@@ -83,4 +83,5 @@ public class CharactersViewModel internal constructor(
 public interface CharactersNavigator {
     public fun navigateToEpisodes()
     public fun navigateToLocations()
+    public fun navigateToCharacterDetail(id: String)
 }

@@ -44,7 +44,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(projects.design)
             implementation(projects.bottomNavigation)
-            implementation(libs.paging.compose.common)
             implementation(libs.ktor.core)
             implementation(libs.coil.compose.core)
             implementation(libs.coil.mp)
