@@ -1,12 +1,12 @@
 package org.rick.and.morty.characters.internal.presentation
 
 import androidx.compose.runtime.Immutable
-import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.PagingData
 
 
 @Immutable
 internal data class CharactersState(
-    val characters: LazyPagingItems<CharacterItem>
+    val characters: PagingData<CharacterItem>
 )
 
 @Immutable

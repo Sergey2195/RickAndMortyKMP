@@ -4,5 +4,7 @@ import app.cash.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 
 internal interface CharactersRepository {
-    fun getClearCharactersFlow(): Flow<PagingData<CharacterModel>>
+    suspend fun getCharactersWithPage(page: Int): List<CharacterModel>
+
+    fun getCharactersFlow(): Flow<PagingData<CharacterModel>>
 }

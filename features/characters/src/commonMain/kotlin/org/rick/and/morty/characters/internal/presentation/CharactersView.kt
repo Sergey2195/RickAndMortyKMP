@@ -31,9 +31,10 @@ import coil3.compose.AsyncImage
 
 @Composable
 internal fun CharactersView(
-    characters: LazyPagingItems<CharacterItem>,
+    state: CharactersState,
     onUiState: (UiEvent) -> Unit
 ) {
+    val items = state.characters.collectAsLazyPagingItems()
 
     Scaffold(
         modifier = Modifier,
@@ -46,7 +47,7 @@ internal fun CharactersView(
     ) { paddingValues ->
         CharactersItemView(
             paddingValues = paddingValues,
-            characters = characters,
+            characters = items,
             onUiState = onUiState
         )
     }
