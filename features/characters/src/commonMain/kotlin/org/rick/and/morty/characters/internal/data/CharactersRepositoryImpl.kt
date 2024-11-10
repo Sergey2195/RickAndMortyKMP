@@ -24,13 +24,14 @@ internal class CharactersRepositoryImpl : CharactersRepository {
     }
 
     override suspend fun getFirstPage(): List<CharacterModel> {
-        val characterResponse =  getCharactersWithPage(1)
+        val characterResponse = getCharactersWithPage(1)
 
-        totalPages = characterResponse.info.pages
+        totalPages = characterResponse?.info?.pages ?: Int.MAX_VALUE
 
         return characterResponse
-            .results
-            .map { it.toDomainModel() }
+            ?.results
+            ?.map { it.toDomainModel() }
+            ?: emptyList()
     }
 
     override suspend fun getNewPage(): List<CharacterModel> {
@@ -38,16 +39,22 @@ internal class CharactersRepositoryImpl : CharactersRepository {
 
         return if (totalPages >= currentPage) {
             getCharactersWithPage(currentPage)
-                .results
-                .map { it.toDomainModel() }
+                ?.results
+                ?.map { it.toDomainModel() }
+                ?: emptyList()
         } else {
             emptyList()
         }
     }
 
-    private suspend fun getCharactersWithPage(page: Int): CharactersResponse {
-        return httpClient
-            .get("https://rickandmortyapi.com/api/character/?page=$page")
-            .body<CharactersResponse>()
+    private suspend fun getCharactersWithPage(page: Int): CharactersResponse? {
+        return try {
+            httpClient
+                .get("https://rickandmortyapi.com/api/character/?page=$page")
+                .body<CharactersResponse>()
+        } catch (e: Exception) {
+            println(e.toString())
+            null
+        }
     }
 }
