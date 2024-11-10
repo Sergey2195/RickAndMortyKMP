@@ -8,13 +8,11 @@ import org.rick.and.morty.navigation.episodes.EpisodesDestination
 class LocationsNavigatorImpl: LocationsNavigator {
     override fun navigateToCharacters() {
         Navigator
-            .getNavigator()
-            .navigate(CharactersDestination.route)
+            .navigateWithSingleInstance(CharactersDestination.route)
     }
 
     override fun navigateToEpisodes() {
         Navigator
-            .getNavigator()
-            .navigate(EpisodesDestination.route)
+            .navigateWithSingleInstance(EpisodesDestination.route)
     }
 }

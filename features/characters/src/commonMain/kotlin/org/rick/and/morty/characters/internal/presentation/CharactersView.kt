@@ -2,40 +2,30 @@ package org.rick.and.morty.characters.internal.presentation
 
 import Design
 import MainBottomNavigation
-import androidx.compose.foundation.background
+import Tab
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -68,8 +58,11 @@ private fun CharactersItemView(
     characters: List<CharacterItem>,
     onUiState: (UiEvent) -> Unit
 ) {
+    val lazyListState = rememberLazyListState()
+
     LazyColumn(
         contentPadding = paddingValues,
+        state = lazyListState
     ) {
         item { Spacer(Modifier.statusBarsPadding().heightIn(1.dp)) }
 
@@ -82,6 +75,11 @@ private fun CharactersItemView(
                 onUiState = onUiState
             )
         }
+    }
+
+    LaunchedEffect(lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index) {
+        val diff = lazyListState.layoutInfo.totalItemsCount - (lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0)
+        println("diff $diff")
     }
 }
 

@@ -9,7 +9,6 @@ import kotlinx.serialization.json.Json
 import org.rick.and.morty.characters.internal.data.entity.CharactersResponse
 import org.rick.and.morty.characters.internal.domain.CharacterModel
 import org.rick.and.morty.characters.internal.domain.CharactersRepository
-import kotlin.random.Random
 
 internal class CharactersRepositoryImpl : CharactersRepository {
     private val httpClient = HttpClient {

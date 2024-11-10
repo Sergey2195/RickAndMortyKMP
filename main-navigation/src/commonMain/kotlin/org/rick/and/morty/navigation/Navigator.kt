@@ -10,4 +10,14 @@ object Navigator {
     }
 
     fun getNavigator() = navHostController
+
+    fun navigateWithSingleInstance(route: String) {
+        val isRouteExist = navHostController.currentBackStack.value.any { it.destination.route == route }
+
+        if (isRouteExist) {
+            navHostController.popBackStack(route = route, inclusive = false)
+        } else {
+            navHostController.navigate(route = route)
+        }
+    }
 }
