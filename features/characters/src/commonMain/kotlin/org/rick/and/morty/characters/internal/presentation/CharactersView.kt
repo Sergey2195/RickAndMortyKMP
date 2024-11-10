@@ -3,6 +3,7 @@ package org.rick.and.morty.characters.internal.presentation
 import Design
 import MainBottomNavigation
 import Tab
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -63,7 +64,8 @@ private fun CharactersItemView(
 
     LazyColumn(
         contentPadding = paddingValues,
-        state = lazyListState
+        state = lazyListState,
+        modifier = Modifier.background(Design.Colors.backgroundPrimary)
     ) {
         item { Spacer(Modifier.statusBarsPadding().heightIn(1.dp)) }
 

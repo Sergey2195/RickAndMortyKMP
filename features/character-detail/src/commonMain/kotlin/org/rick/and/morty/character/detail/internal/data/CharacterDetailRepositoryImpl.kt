@@ -14,7 +14,7 @@ import org.rick.and.morty.character.detail.internal.domain.CharacterDetailReposi
 import org.rick.and.morty.character.detail.internal.domain.Episode
 import org.rick.and.morty.character.detail.internal.domain.Location
 
-internal class CharacterDetailRepositoryImpl: CharacterDetailRepository {
+internal class CharacterDetailRepositoryImpl : CharacterDetailRepository {
 
     private val httpClient = HttpClient {
         install(ContentNegotiation) {
@@ -42,16 +42,8 @@ internal class CharacterDetailRepositoryImpl: CharacterDetailRepository {
     }
 
     private suspend fun getCharacterDetailModel(response: CharacterDetailResponse): CharacterDetailModel {
-        val episodes = response
-            .episodeUrls
-            .joinToString(",") {
-                it.substringAfterLast("/")
-            }
-            .run {
-                httpClient
-                    .get("https://rickandmortyapi.com/api/episode/$this")
-                    .body<List<EpisodeDetails>>()
-            }
+        val episodeIds = extractEpisodeIds(response.episodeUrls)
+        val episodes = fetchEpisodes(episodeIds)
 
         return CharacterDetailModel(
             image = response.image,
@@ -59,21 +51,32 @@ internal class CharacterDetailRepositoryImpl: CharacterDetailRepository {
             species = response.species,
             status = response.status,
             gender = response.gender,
-            location = Location(
-                locationId = response.location.url.substringAfterLast("/"),
-                locationName = response.location.locationName
-            ),
-            origin = Location(
-                locationId = response.origin.url.substringAfterLast("/"),
-                locationName = response.origin.locationName
-            ),
-            episodes = episodes.map {
-                Episode(
-                    episodeId = it.id,
-                    episodeName = it.name,
-                    episodeCount = it.episode
-                )
-            }
+            location = mapLocation(response.location),
+            origin = mapLocation(response.origin),
+            episodes = episodes.map { mapEpisode(it) }
         )
     }
+
+    private fun extractEpisodeIds(episodeUrls: List<String>): String =
+        episodeUrls.joinToString(",") { it.substringAfterLast("/") }
+
+    private suspend fun fetchEpisodes(episodeIds: String): List<EpisodeDetails> =
+        if (episodeIds.contains(",")) {
+            httpClient.get("https://rickandmortyapi.com/api/episode/$episodeIds").body()
+        } else {
+            listOf(httpClient.get("https://rickandmortyapi.com/api/episode/$episodeIds").body())
+        }
+
+    private fun mapLocation(locationResponse: org.rick.and.morty.character.detail.internal.data.Location): Location =
+        Location(
+            locationId = locationResponse.url.substringAfterLast("/"),
+            locationName = locationResponse.locationName
+        )
+
+    private fun mapEpisode(episodeDetails: EpisodeDetails): Episode =
+        Episode(
+            episodeId = episodeDetails.id,
+            episodeName = episodeDetails.name,
+            episodeCount = episodeDetails.episode
+        )
 }
